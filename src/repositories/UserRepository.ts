@@ -3,7 +3,7 @@ import { FindOneOptions, IsNull, Repository } from "typeorm";
 import InterfaceUserRepository from "./interfaces/InterfaceUserRepository";
 import UserEntity from "../database/entities/UserEntity";
 import Address from "../types/Address";
-import { AddressEntity } from "../database/entities/AddressEntity";
+import AddressEntity from "../database/entities/AddressEntity";
 import EntityNotFoundError from "../errors/EntityNotFoundError";
 import User from "../types/User";
 import bcrypt from "bcrypt";
@@ -15,7 +15,7 @@ export default class UserRepository implements InterfaceUserRepository {
     this.repository = repository;
   }
 
-  createUser(user: User): Promise<UserEntity | null> {
+  async createUser(user: User): Promise<UserEntity | null> {
     try {
       const createUser = new UserEntity(
         user.firstName,
@@ -25,20 +25,24 @@ export default class UserRepository implements InterfaceUserRepository {
         user.birthdate,
         bcrypt.hashSync(user.password, salt)
       );
-      const result = this.repository.save(createUser);
+      const result = await this.repository.save(createUser);
       return result;
     } catch (error) {
       console.log(error);
       throw error;
     }
   }
-  findUserById(id: number): Promise<UserEntity | null> {
+  async findUserById(id: number): Promise<UserEntity | null> {
     try {
-      return this.repository.findOne({
+      const result = await this.repository.findOne({
         where: {
           id,
         },
       });
+      if (result === null) {
+        throw new EntityNotFoundError("User entity not found");
+      }
+      return result;
     } catch (error) {
       console.log(error);
       throw error;
@@ -84,6 +88,7 @@ export default class UserRepository implements InterfaceUserRepository {
         result.password = user.password
           ? bcrypt.hashSync(user.password, salt)
           : result.document;
+        result.address = <AddressEntity>user?.address || result.address || null;
         this.repository.save(result);
       } else {
         throw new EntityNotFoundError("User entity not found");
@@ -111,37 +116,6 @@ export default class UserRepository implements InterfaceUserRepository {
       return this.repository.findOne({
         where: { id },
       });
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
-  }
-  async updateUserAddress(
-    id: number,
-    address: Address
-  ): Promise<UserEntity | null> {
-    try {
-      const result = await this.repository.findOne({
-        where: {
-          id,
-        },
-      });
-      if (result !== null) {
-        const createdAddress = new AddressEntity(
-          address.number,
-          address.street,
-          address.complement,
-          address.neighbourhood,
-          address.city,
-          address.district,
-          address.country
-        );
-        result.address = createdAddress;
-        await this.repository.save(result);
-      } else {
-        throw new EntityNotFoundError("User entity not found");
-      }
-      return result;
     } catch (error) {
       console.log(error);
       throw error;

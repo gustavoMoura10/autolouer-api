@@ -24,8 +24,5 @@ router.get("/:id", (req, res, next) =>
 router.delete("/:id", (req, res, next) =>
   userController.deleteUser(req, res, next)
 );
-router.patch("/address/:id", (req, res, next) =>
-  userController.updateUserAddress(req, res, next)
-);
 
 export default router;

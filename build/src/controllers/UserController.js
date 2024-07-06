@@ -39,17 +39,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var UserEntity_1 = __importDefault(require("../database/entities/UserEntity"));
 var UserSchema_1 = __importDefault(require("../validator/UserSchema"));
-var bcrypt_1 = __importDefault(require("bcrypt"));
-var salt = bcrypt_1.default.genSaltSync(10);
 var UserController = (function () {
-    function UserController(repository) {
-        this.repository = repository;
+    function UserController(userRepository) {
+        this.userRepository = userRepository;
     }
     UserController.prototype.createUser = function (req, res, next) {
         return __awaiter(this, void 0, void 0, function () {
-            var userSchema, _a, firstName, lastName, email, password, document_1, birthdate, user, result, error_1;
+            var userSchema, _a, firstName, lastName, email, password, document_1, birthdate, result, error_1;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -59,8 +56,14 @@ var UserController = (function () {
                     case 1:
                         _b.sent();
                         _a = req.body, firstName = _a.firstName, lastName = _a.lastName, email = _a.email, password = _a.password, document_1 = _a.document, birthdate = _a.birthdate;
-                        user = new UserEntity_1.default(firstName, lastName, email, document_1, bcrypt_1.default.hashSync(password, salt), birthdate);
-                        return [4, this.repository.createUser(user)];
+                        return [4, this.userRepository.createUser({
+                                firstName: firstName,
+                                lastName: lastName,
+                                email: email,
+                                password: password,
+                                document: document_1,
+                                birthdate: birthdate,
+                            })];
                     case 2:
                         result = _b.sent();
                         return [2, res.status(200).send(result)];
@@ -70,6 +73,101 @@ var UserController = (function () {
                         next(error_1);
                         return [3, 4];
                     case 4: return [2];
+                }
+            });
+        });
+    };
+    UserController.prototype.findUserById = function (req, res, next) {
+        return __awaiter(this, void 0, void 0, function () {
+            var id, result, error_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        id = req.params.id;
+                        return [4, this.userRepository.findUserById(Number(id))];
+                    case 1:
+                        result = _a.sent();
+                        return [2, res.status(200).send(result)];
+                    case 2:
+                        error_2 = _a.sent();
+                        console.log(error_2);
+                        next(error_2);
+                        return [3, 3];
+                    case 3: return [2];
+                }
+            });
+        });
+    };
+    UserController.prototype.findAllUsers = function (req, res, next) {
+        return __awaiter(this, void 0, void 0, function () {
+            var result, error_3;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4, this.userRepository.findAllUsers()];
+                    case 1:
+                        result = _a.sent();
+                        return [2, res.status(200).send(result)];
+                    case 2:
+                        error_3 = _a.sent();
+                        console.log(error_3);
+                        next(error_3);
+                        return [3, 3];
+                    case 3: return [2];
+                }
+            });
+        });
+    };
+    UserController.prototype.updateUser = function (req, res, next) {
+        return __awaiter(this, void 0, void 0, function () {
+            var id, _a, firstName, lastName, email, password, document_2, birthdate, result, error_4;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _b.trys.push([0, 2, , 3]);
+                        id = req.params.id;
+                        _a = req.body, firstName = _a.firstName, lastName = _a.lastName, email = _a.email, password = _a.password, document_2 = _a.document, birthdate = _a.birthdate;
+                        return [4, this.userRepository.updateUserById(Number(id), {
+                                firstName: firstName,
+                                lastName: lastName,
+                                email: email,
+                                password: password,
+                                document: document_2,
+                                birthdate: birthdate,
+                            })];
+                    case 1:
+                        result = _b.sent();
+                        return [2, res.status(200).send(result)];
+                    case 2:
+                        error_4 = _b.sent();
+                        console.log(error_4);
+                        next(error_4);
+                        return [3, 3];
+                    case 3: return [2];
+                }
+            });
+        });
+    };
+    UserController.prototype.deleteUser = function (req, res, next) {
+        return __awaiter(this, void 0, void 0, function () {
+            var id, result, error_5;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        id = req.params.id;
+                        return [4, this.userRepository.deleteUserById(Number(id))];
+                    case 1:
+                        result = _a.sent();
+                        return [2, res.status(200).send(result)];
+                    case 2:
+                        error_5 = _a.sent();
+                        console.log(error_5);
+                        next(error_5);
+                        return [3, 3];
+                    case 3: return [2];
                 }
             });
         });

@@ -7,7 +7,7 @@ import AddressSchema from "../validator/AddressSchema";
 import Address from "../types/Address";
 
 export default class UserController {
-  constructor(private repository: UserRepository) {}
+  constructor(private userRepository: UserRepository) {}
   async createUser(req: Request, res: Response, next: NextFunction) {
     try {
       const userSchema = new UserSchema();
@@ -16,7 +16,7 @@ export default class UserController {
         User
       >req.body;
 
-      const result = await this.repository.createUser({
+      const result = await this.userRepository.createUser({
         firstName,
         lastName,
         email,
@@ -34,7 +34,7 @@ export default class UserController {
   async findUserById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const result = await this.repository.findUserById(Number(id));
+      const result = await this.userRepository.findUserById(Number(id));
       return res.status(200).send(result);
     } catch (error) {
       console.log(error);
@@ -43,42 +43,14 @@ export default class UserController {
   }
   async findAllUsers(req: Request, res: Response, next: NextFunction) {
     try {
-      const result = await this.repository.findAllUsers();
+      const result = await this.userRepository.findAllUsers();
       return res.status(200).send(result);
     } catch (error) {
       console.log(error);
       next(error);
     }
   }
-  async updateUserAddress(req: Request, res: Response, next: NextFunction) {
-    try {
-      const { id } = req.params;
-      const addressSchema = new AddressSchema();
-      await addressSchema.create(req.body);
-      const {
-        city,
-        complement,
-        country,
-        district,
-        neighbourhood,
-        number,
-        street,
-      } = <Address>req.body;
-      const result = await this.repository.updateUserAddress(Number(id), {
-        city,
-        complement,
-        country,
-        district,
-        neighbourhood,
-        number,
-        street,
-      } as Address);
-      return res.status(200).send(result);
-    } catch (error) {
-      console.log(error);
-      next(error);
-    }
-  }
+
   async updateUser(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
@@ -86,7 +58,7 @@ export default class UserController {
         User
       >req.body;
 
-      const result = await this.repository.updateUserById(Number(id), {
+      const result = await this.userRepository.updateUserById(Number(id), {
         firstName,
         lastName,
         email,
@@ -103,7 +75,7 @@ export default class UserController {
   async deleteUser(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const result = await this.repository.deleteUserById(Number(id));
+      const result = await this.userRepository.deleteUserById(Number(id));
       return res.status(200).send(result);
     } catch (error) {
       console.log(error);

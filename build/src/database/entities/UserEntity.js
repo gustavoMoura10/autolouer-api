@@ -8,16 +8,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var typeorm_1 = require("typeorm");
+var AddressEntity_1 = __importDefault(require("./AddressEntity"));
 var UserEntity = (function () {
-    function UserEntity(firstName, lastName, email, document, password, birthdate) {
+    function UserEntity(firstName, lastName, email, document, birthdate, password, address) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.document = document;
         this.password = password;
         this.birthdate = birthdate;
+        this.address = address;
     }
     __decorate([
         (0, typeorm_1.PrimaryGeneratedColumn)(),
@@ -49,6 +54,7 @@ var UserEntity = (function () {
     __decorate([
         (0, typeorm_1.Column)({
             nullable: false,
+            select: false,
         }),
         __metadata("design:type", String)
     ], UserEntity.prototype, "password", void 0);
@@ -66,6 +72,14 @@ var UserEntity = (function () {
         }),
         __metadata("design:type", String)
     ], UserEntity.prototype, "document", void 0);
+    __decorate([
+        (0, typeorm_1.OneToOne)(function () { return AddressEntity_1.default; }, { eager: true, cascade: true, nullable: true }),
+        (0, typeorm_1.JoinColumn)({
+            name: "address_id",
+            referencedColumnName: "id",
+        }),
+        __metadata("design:type", AddressEntity_1.default)
+    ], UserEntity.prototype, "address", void 0);
     __decorate([
         (0, typeorm_1.Column)({
             type: "timestamp",
@@ -92,10 +106,8 @@ var UserEntity = (function () {
         __metadata("design:type", Date)
     ], UserEntity.prototype, "deletedAt", void 0);
     UserEntity = __decorate([
-        (0, typeorm_1.Entity)({
-            name: "user",
-        }),
-        __metadata("design:paramtypes", [String, String, String, String, String, Date])
+        (0, typeorm_1.Entity)("user"),
+        __metadata("design:paramtypes", [String, String, String, String, Date, String, AddressEntity_1.default])
     ], UserEntity);
     return UserEntity;
 }());

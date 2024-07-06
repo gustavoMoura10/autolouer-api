@@ -58,6 +58,9 @@ var port = process.env.PORT || 3000;
             case 1:
                 resultDataSource = _a.sent();
                 if (resultDataSource.isInitialized) {
+                    console.log("[database]: CONNECTED");
+                }
+                else {
                 }
                 app.use(express_1.default.json());
                 app.get("/", function (req, res) {

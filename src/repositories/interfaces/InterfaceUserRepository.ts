@@ -1,4 +1,3 @@
-import { AddressEntity } from "../../database/entities/AddressEntity";
 import UserEntity from "../../database/entities/UserEntity";
 import Address from "../../types/Address";
 import User from "../../types/User";
@@ -13,8 +12,4 @@ export default interface InterfaceUserRepository {
     user: User
   ): Promise<UserEntity | null> | UserEntity;
   deleteUserById(id: number): Promise<UserEntity | null> | UserEntity;
-  updateUserAddress(
-    id: number,
-    address: Address
-  ): Promise<UserEntity | null> | UserEntity;
 }

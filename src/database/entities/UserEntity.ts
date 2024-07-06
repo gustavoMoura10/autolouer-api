@@ -5,7 +5,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { AddressEntity } from "./AddressEntity";
+import AddressEntity from "./AddressEntity";
 @Entity("user")
 export default class UserEntity {
   @PrimaryGeneratedColumn()
@@ -48,6 +48,23 @@ export default class UserEntity {
   })
   document: string;
 
+  @Column({
+    length: 500,
+    nullable: false,
+  })
+  photo?: string;
+
+  @Column({
+    length: 500,
+    nullable: false,
+  })
+  licensePhoto?: string;
+  @Column({
+    length: 50,
+    nullable: false,
+  })
+  license?: string;
+
   @OneToOne(() => AddressEntity, { eager: true, cascade: true, nullable: true })
   @JoinColumn({
     name: "address_id",
@@ -82,7 +99,10 @@ export default class UserEntity {
     document: string,
     birthdate: Date,
     password?: string,
-    address?: AddressEntity
+    address?: AddressEntity,
+    photo?: string,
+    licensePhoto?: string,
+    license?: string
   ) {
     this.firstName = firstName;
     this.lastName = lastName;
@@ -91,5 +111,8 @@ export default class UserEntity {
     this.password = password;
     this.birthdate = birthdate;
     this.address = address;
+    this.photo = photo;
+    this.licensePhoto = licensePhoto;
+    this.license = license;
   }
 }

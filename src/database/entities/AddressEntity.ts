@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity("address")
-export class AddressEntity {
+export default class AddressEntity {
   @PrimaryGeneratedColumn()
   id!: number;
   @Column({
@@ -15,6 +15,12 @@ export class AddressEntity {
     length: 255,
   })
   street: string;
+  @Column({
+    name: "zip_code",
+    nullable: true,
+    length: 20,
+  })
+  zipCode?: string;
   @Column({
     nullable: false,
     length: 255,
@@ -30,6 +36,7 @@ export class AddressEntity {
     length: 255,
   })
   city: string;
+
   @Column({
     nullable: false,
     length: 255,
@@ -67,7 +74,8 @@ export class AddressEntity {
     neighbourhood: string,
     city: string,
     district: string,
-    country: string
+    country: string,
+    zipCode?: string,
   ) {
     this.number = number;
     this.street = street;
@@ -76,5 +84,6 @@ export class AddressEntity {
     this.city = city;
     this.district = district;
     this.country = country;
+    this.zipCode = zipCode;
   }
 }

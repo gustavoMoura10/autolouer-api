@@ -13,5 +13,17 @@ var userController = new UserController_1.default(userRepository);
 router.post("/signup", function (req, res, next) {
     return userController.createUser(req, res, next);
 });
+router.get("/", function (req, res, next) {
+    return userController.findAllUsers(req, res, next);
+});
+router.put("/:id", function (req, res, next) {
+    return userController.updateUser(req, res, next);
+});
+router.get("/:id", function (req, res, next) {
+    return userController.findUserById(req, res, next);
+});
+router.delete("/:id", function (req, res, next) {
+    return userController.deleteUser(req, res, next);
+});
 exports.default = router;
 //# sourceMappingURL=UserRoute.js.map

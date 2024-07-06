@@ -1,0 +1,34 @@
+//USERS
+###
+GET http://localhost:3000/user
+
+
+###
+# @name eventCreated
+POST http://localhost:3000/events
+Content-Type: application/json
+
+{
+    "firstName":"Gustavo",
+    "lastName":"Moura",
+    "email":"gustavomoura.dev@gmail.com",
+    "price":1000
+}
+
+###
+@eventId = {{eventCreated.response.body.id}}
+###
+GET http://localhost:3000/events/{{eventId}}
+
+
+###
+PATCH http://localhost:3000/events/{{eventId}}
+Content-Type: application/json
+
+{
+    "description":"Show da querida Taylor Swift",
+    "price":1600
+}
+
+###
+DELETE  http://localhost:3000/events/{{eventId}}

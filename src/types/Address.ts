@@ -6,5 +6,6 @@ type Address = {
   city: string;
   district: string;
   country: string;
+  zipCode:string;
 };
 export default Address;

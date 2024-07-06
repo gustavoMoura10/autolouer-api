@@ -41,8 +41,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var joi_1 = __importDefault(require("joi"));
 var validateCPFCNPJ_1 = __importDefault(require("../utils/validateCPFCNPJ"));
-var regexCPF = /([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})/;
-var regexCNPJ = /^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/;
 var createSchema = joi_1.default.object({
     firstName: joi_1.default.string().alphanum().min(2).max(100).required(),
     lastName: joi_1.default.string().alphanum().min(2).max(100).required(),
