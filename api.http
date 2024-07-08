@@ -4,31 +4,37 @@ GET http://localhost:3000/user
 
 
 ###
-# @name eventCreated
-POST http://localhost:3000/events
+# @name userCreated
+POST http://localhost:3000/user/signup
 Content-Type: application/json
 
 {
     "firstName":"Gustavo",
     "lastName":"Moura",
     "email":"gustavomoura.dev@gmail.com",
-    "price":1000
+    "document":"49722630830",
+    "birthdate":"1999-02-26T15:00:00.000Z",
+    "password":"Senha@123",
+    "passwordConfirmation":"Senha@123"
 }
 
 ###
-@eventId = {{eventCreated.response.body.id}}
+@userId = {{userCreated.response.body.id}}
 ###
-GET http://localhost:3000/events/{{eventId}}
+GET http://localhost:3000/user/{{userId}}
 
 
 ###
-PATCH http://localhost:3000/events/{{eventId}}
+POST http://localhost:3000/address/{{userId}}
 Content-Type: application/json
 
 {
-    "description":"Show da querida Taylor Swift",
-    "price":1600
+    "number":99,
+    "street":"Rua Camburiú",
+    "zipCode":"05060020",
+    "complement":"Casa 1",
+    "neighbourhood":"Vila Ipojuca",
+    "city":"São Paulo",
+    "district":"São Paulo",
+    "country":"BR"
 }
-
-###
-DELETE  http://localhost:3000/events/{{eventId}}

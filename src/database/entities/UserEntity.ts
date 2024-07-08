@@ -1,11 +1,16 @@
 import {
   Column,
+  CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from "typeorm";
 import AddressEntity from "./AddressEntity";
+import VehicleRentEntity from "./VehicleRentEntity";
 @Entity("user")
 export default class UserEntity {
   @PrimaryGeneratedColumn()
@@ -50,18 +55,18 @@ export default class UserEntity {
 
   @Column({
     length: 500,
-    nullable: false,
+    nullable: true,
   })
   photo?: string;
 
   @Column({
     length: 500,
-    nullable: false,
+    nullable: true,
   })
   licensePhoto?: string;
   @Column({
     length: 50,
-    nullable: false,
+    nullable: true,
   })
   license?: string;
 
@@ -72,22 +77,25 @@ export default class UserEntity {
   })
   address?: AddressEntity;
 
-  @Column({
-    type: "timestamp",
-    default: () => "CURRENT_TIMESTAMP(6)",
+  @OneToMany(
+    () => VehicleRentEntity,
+    (vehicleRent: VehicleRentEntity) => vehicleRent.user,
+    {
+      cascade: true,
+      eager: true,
+    }
+  )
+  vehicleRents?: VehicleRentEntity[];
+
+  @CreateDateColumn({
     name: "created_at",
   })
   createdAt!: Date;
-  @Column({
-    type: "timestamp",
-    default: () => "CURRENT_TIMESTAMP(6)",
-    onUpdate: "CURRENT_TIMESTAMP(6)",
+  @UpdateDateColumn({
     name: "updated_at",
   })
   updatedAt!: Date;
-  @Column({
-    type: "timestamp",
-    default: null,
+  @DeleteDateColumn({
     name: "deleted_at",
   })
   deletedAt!: Date;

@@ -5,7 +5,7 @@ import type User from "../types/User";
 import UserSchema from "../validator/UserSchema";
 import AddressSchema from "../validator/AddressSchema";
 import Address from "../types/Address";
-
+import UserWithoutPassword from "../types/UserWithoutPassword";
 export default class UserController {
   constructor(private userRepository: UserRepository) {}
   async createUser(req: Request, res: Response, next: NextFunction) {
@@ -24,7 +24,15 @@ export default class UserController {
         document,
         birthdate,
       });
-      return res.status(200).send(result);
+
+      return res.status(200).send({
+        id: result?.id,
+        birthdate: result?.birthdate,
+        document: result?.document,
+        email: result?.email,
+        firstName: result?.firstName,
+        lastName: result?.lastName,
+      });
     } catch (error) {
       console.log(error);
       next(error);

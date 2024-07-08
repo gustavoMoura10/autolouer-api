@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity("address")
 export default class AddressEntity {
@@ -47,23 +47,17 @@ export default class AddressEntity {
     length: 3,
   })
   country: string;
-  @Column({
-    type: "timestamp",
-    default: () => "CURRENT_TIMESTAMP(6)",
+  @CreateDateColumn({
     name: "created_at",
   })
   createdAt!: Date;
-  @Column({
-    type: "timestamp",
-    default: () => "CURRENT_TIMESTAMP(6)",
-    onUpdate: "CURRENT_TIMESTAMP(6)",
+  @UpdateDateColumn({
     name: "updated_at",
   })
   updatedAt!: Date;
-  @Column({
-    type: "timestamp",
-    default: null,
+  @DeleteDateColumn({
     name: "deleted_at",
+    
   })
   deletedAt!: Date;
 
