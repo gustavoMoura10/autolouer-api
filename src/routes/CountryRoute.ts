@@ -1,21 +1,18 @@
 import { Router } from "express";
-import UserController from "../controllers/UserController";
-import UserRepository from "../repositories/UserRepository";
 import AppDataSource from "../database/DataSource";
-import AddressRepository from "../repositories/AddressRepository";
-import AddressController from "../controllers/AddressController";
+import CountryController from "../controllers/CountryController";
+import CountryRepository from "../repositories/CountryRepository";
 
 const router: Router = Router();
-const userRepository = new UserRepository(
-  AppDataSource.getRepository("UserEntity")
+const countryRepository = new CountryRepository(
+  AppDataSource.getRepository("CountryEntity")
 );
-const addressController = new AddressController(
-  addressRepository,
-  userRepository
+const addressController = new CountryController(
+  countryRepository
 );
 
 router.post("/:id", (req, res, next) =>
-  addressController.createAddress(req, res, next)
+  addressController.createCountry(req, res, next)
 );
 
 export default router;

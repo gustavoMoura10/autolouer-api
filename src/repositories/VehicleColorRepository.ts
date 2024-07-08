@@ -1,8 +1,13 @@
+import { Repository } from "typeorm";
 import VehicleColorEntity from "../database/entities/VehicleColorEntity";
 import VehicleColor from "../types/VehicleColor";
 import InterfaceVehicleColorRepository from "./interfaces/InterfaceVehicleColorRepository";
 
 export default class VehicleColorRepository implements InterfaceVehicleColorRepository {
+  private repository: Repository<VehicleColorEntity>;
+  constructor(repository: Repository<VehicleColorEntity>) {
+    this.repository = repository;
+  }
   createVehicleColor(vehicleColor: VehicleColor): Promise<VehicleColorEntity | null> | VehicleColorEntity {
     throw new Error("Method not implemented.");
   }

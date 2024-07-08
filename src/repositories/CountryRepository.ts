@@ -1,8 +1,13 @@
+import { Repository } from "typeorm";
 import CountryEntity from "../database/entities/CountryEntity";
 import Country from "../types/Country";
 import InterfaceCountryRepository from "./interfaces/InterfaceCountryRepository";
 
 export default class CountryRepository implements InterfaceCountryRepository {
+  private repository: Repository<CountryEntity>;
+  constructor(repository: Repository<CountryEntity>) {
+    this.repository = repository;
+  }
   createCountry(country: Country): Promise<CountryEntity | null> | CountryEntity {
     throw new Error("Method not implemented.");
   }

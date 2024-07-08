@@ -1,8 +1,13 @@
+import { Repository } from "typeorm";
 import VehicleFuelEntity from "../database/entities/VehicleFuelEntity";
 import VehicleFuel from "../types/VehicleFuel";
 import InterfaceVehicleFuelRepository from "./interfaces/InterfaceVehicleFuelRepository";
 
 export default class VehicleFuelRepository implements InterfaceVehicleFuelRepository {
+  private repository: Repository<VehicleFuelEntity>;
+  constructor(repository: Repository<VehicleFuelEntity>) {
+    this.repository = repository;
+  }
   createVehicleFuel(vehicleFuel: VehicleFuel): Promise<VehicleFuelEntity | null> | VehicleFuelEntity {
     throw new Error("Method not implemented.");
   }
