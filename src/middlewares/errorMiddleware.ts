@@ -1,16 +1,14 @@
 import { ErrorRequestHandler, NextFunction, Request, Response } from "express";
 import Joi from "joi";
 import EntityNotFoundError from "../errors/EntityNotFoundError";
+import ApplicationErrorHandler from "../errors/ApplicationErrorHandler";
 export default function errorMiddleware(
-  err: ErrorRequestHandler,
+  err: ApplicationErrorHandler,
   req: Request,
   res: Response,
   next: NextFunction
 ) {
-  if (err instanceof Joi.ValidationError) {
-    res.status(400).send(err.message);
-  }
-  if (err instanceof EntityNotFoundError) {
-    res.status(404).send(err.message);
-  }
+  const statusCode = err.statusCode ?? HttpStatusCode.INTERNAL_SERVER_ERROR;
+  const message = err.statusCode ? err.message : "Internal Server Error";
+  res.status(statusCode).send({ message });
 }
