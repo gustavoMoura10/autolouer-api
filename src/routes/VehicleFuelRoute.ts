@@ -4,15 +4,26 @@ import VehicleFuelController from "../controllers/VehicleFuelController";
 import VehicleFuelRepository from "../repositories/VehicleFuelRepository";
 
 const router: Router = Router();
-const countryRepository = new VehicleFuelRepository(
+const vehicleFuelRepository = new VehicleFuelRepository(
   AppDataSource.getRepository("VehicleFuelEntity")
 );
-const addressController = new VehicleFuelController(
-  countryRepository
+const vehicleFuelController = new VehicleFuelController(vehicleFuelRepository);
+
+router.post("/", (req, res, next) =>
+  vehicleFuelController.createVehicleFuel(req, res, next)
+);
+router.get("/", (req, res, next) =>
+  vehicleFuelController.findAllVehicleFuels(req, res, next)
+);
+router.get("/:id", (req, res, next) =>
+  vehicleFuelController.findVehicleFuelById(req, res, next)
+);
+router.put("/:id", (req, res, next) =>
+  vehicleFuelController.updateVehicleFuelById(req, res, next)
 );
 
-router.post("/:id", (req, res, next) =>
-  addressController.createVehicleFuel(req, res, next)
+router.delete("/:id", (req, res, next) =>
+  vehicleFuelController.deleteVehicleFuelById(req, res, next)
 );
 
 export default router;

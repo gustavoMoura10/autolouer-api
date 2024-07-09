@@ -8,7 +8,7 @@ export default interface InterfaceVehicleCategoryRepository {
   findVehicleCategoryById(
     id: number
   ): Promise<VehicleCategoryEntity | null> | VehicleCategoryEntity;
-  findAllVehicleCategorys():
+  findAllVehicleCategories():
     | Promise<VehicleCategoryEntity[]>
     | VehicleCategoryEntity[];
   updateVehicleCategoryById(

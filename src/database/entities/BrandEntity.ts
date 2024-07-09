@@ -3,11 +3,15 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
 import VehicleModelEntity from "./VehicleModelEntity";
+import Country from "../../types/Country";
+import CountryEntity from "./CountryEntity";
 
 @Entity("brand")
 export default class BrandEntity {
@@ -23,11 +27,14 @@ export default class BrandEntity {
     nullable: false,
   })
   foundationDate: Date;
-  @Column({
+  @ManyToOne(() => CountryEntity, (country: CountryEntity) => country.brands, {
     nullable: false,
-    length: 3,
   })
-  country: string;
+  @JoinColumn({
+    name: "country_id",
+    referencedColumnName: "id",
+  })
+  country: Country;
   @Column({
     length: 1000,
     nullable: true,
@@ -53,7 +60,7 @@ export default class BrandEntity {
   })
   deletedAt!: Date;
 
-  constructor(name: string, foundationDate: Date, country: string) {
+  constructor(name: string, foundationDate: Date, country: Country) {
     this.name = name;
     this.foundationDate = foundationDate;
     this.country = country;

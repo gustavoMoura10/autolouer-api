@@ -4,15 +4,26 @@ import VehicleCategoryController from "../controllers/VehicleCategoryController"
 import VehicleCategoryRepository from "../repositories/VehicleCategoryRepository";
 
 const router: Router = Router();
-const countryRepository = new VehicleCategoryRepository(
+const vehicleCategoryRepository = new VehicleCategoryRepository(
   AppDataSource.getRepository("VehicleCategoryEntity")
 );
-const addressController = new VehicleCategoryController(
-  countryRepository
+const vehicleCategoryController = new VehicleCategoryController(vehicleCategoryRepository);
+
+router.post("/", (req, res, next) =>
+  vehicleCategoryController.createVehicleCategory(req, res, next)
+);
+router.get("/", (req, res, next) =>
+  vehicleCategoryController.findAllVehicleCategories(req, res, next)
+);
+router.get("/:id", (req, res, next) =>
+  vehicleCategoryController.findVehicleCategoryById(req, res, next)
+);
+router.put("/:id", (req, res, next) =>
+  vehicleCategoryController.updateVehicleCategoryById(req, res, next)
 );
 
-router.post("/:id", (req, res, next) =>
-  addressController.createVehicleCategory(req, res, next)
+router.delete("/:id", (req, res, next) =>
+  vehicleCategoryController.deleteVehicleCategoryById(req, res, next)
 );
 
 export default router;

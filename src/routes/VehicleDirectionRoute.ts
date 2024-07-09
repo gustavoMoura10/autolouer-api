@@ -4,15 +4,26 @@ import VehicleDirectionController from "../controllers/VehicleDirectionControlle
 import VehicleDirectionRepository from "../repositories/VehicleDirectionRepository";
 
 const router: Router = Router();
-const countryRepository = new VehicleDirectionRepository(
+const vehicleDirectionRepository = new VehicleDirectionRepository(
   AppDataSource.getRepository("VehicleDirectionEntity")
 );
-const addressController = new VehicleDirectionController(
-  countryRepository
+const vehicleDirectionController = new VehicleDirectionController(vehicleDirectionRepository);
+
+router.post("/", (req, res, next) =>
+  vehicleDirectionController.createVehicleDirection(req, res, next)
+);
+router.get("/", (req, res, next) =>
+  vehicleDirectionController.findAllVehicleDirections(req, res, next)
+);
+router.get("/:id", (req, res, next) =>
+  vehicleDirectionController.findVehicleDirectionById(req, res, next)
+);
+router.put("/:id", (req, res, next) =>
+  vehicleDirectionController.updateVehicleDirectionById(req, res, next)
 );
 
-router.post("/:id", (req, res, next) =>
-  addressController.createVehicleDirection(req, res, next)
+router.delete("/:id", (req, res, next) =>
+  vehicleDirectionController.deleteVehicleDirectionById(req, res, next)
 );
 
 export default router;

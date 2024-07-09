@@ -1,5 +1,6 @@
 import Joi, { custom } from "joi";
 import validateCPFCNPJ from "../utils/validateCPFCNPJ";
+import { regexPassword } from "../utils/regex";
 
 const createSchema = Joi.object({
   firstName: Joi.string().alphanum().min(2).max(100).required(),
@@ -18,8 +19,8 @@ const createSchema = Joi.object({
       return value;
     })
     .required(),
-  password: Joi.string().required(),
-  passwordConfirmation: Joi.string().equal(Joi.ref("password")).required(),
+  password: Joi.string().regex(regexPassword).required(),
+  passwordConfirmation: Joi.string().regex(regexPassword).equal(Joi.ref("password")).required(),
   birthdate: Joi.date(),
 });
 

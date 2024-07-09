@@ -1,4 +1,6 @@
 import {
+  BeforeInsert,
+  BeforeUpdate,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
@@ -11,6 +13,7 @@ import {
 } from "typeorm";
 import AddressEntity from "./AddressEntity";
 import VehicleRentEntity from "./VehicleRentEntity";
+import { encrypt } from "../../utils/functions";
 @Entity("user")
 export default class UserEntity {
   @PrimaryGeneratedColumn()
@@ -122,5 +125,10 @@ export default class UserEntity {
     this.photo = photo;
     this.licensePhoto = licensePhoto;
     this.license = license;
+  }
+  @BeforeInsert()
+  @BeforeUpdate()
+  private async encryptPassword(senha: string) {
+    this.password = encrypt(this.password);
   }
 }

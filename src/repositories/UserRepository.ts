@@ -6,9 +6,7 @@ import Address from "../types/Address";
 import AddressEntity from "../database/entities/AddressEntity";
 import EntityNotFoundError from "../errors/EntityNotFoundError";
 import User from "../types/User";
-import bcrypt from "bcrypt";
 
-const salt = bcrypt.genSaltSync(10);
 export default class UserRepository implements InterfaceUserRepository {
   private repository: Repository<UserEntity>;
   constructor(repository: Repository<UserEntity>) {
@@ -23,7 +21,7 @@ export default class UserRepository implements InterfaceUserRepository {
         user.email,
         user.document,
         user.birthdate,
-        bcrypt.hashSync(user.password, salt)
+        user.password
       );
       const result = await this.repository.save(createUser);
       return result;
@@ -85,9 +83,7 @@ export default class UserRepository implements InterfaceUserRepository {
         result.lastName = user.lastName || result.lastName;
         result.email = user.email || result.email;
         result.document = user.document || result.document;
-        result.password = user.password
-          ? bcrypt.hashSync(user.password, salt)
-          : result.document;
+        result.password = user.password || result.document;
         result.address = <AddressEntity>user?.address || result.address || null;
         this.repository.save(result);
       } else {

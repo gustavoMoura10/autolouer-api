@@ -1,4 +1,13 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from "typeorm";
+import BrandEntity from "./BrandEntity";
 
 @Entity("country")
 export default class CountryEntity {
@@ -8,14 +17,23 @@ export default class CountryEntity {
   @Column({
     length: 50,
     nullable: false,
+    unique: true,
   })
   name: string;
 
   @Column({
     length: 3,
     nullable: false,
+    unique: true,
   })
   code: string;
+
+  @OneToMany(() => BrandEntity, (brand: BrandEntity) => brand.country, {
+    cascade: true,
+    eager: true,
+  })
+  brands?: BrandEntity[];
+  
   @CreateDateColumn({
     name: "created_at",
   })
@@ -28,7 +46,7 @@ export default class CountryEntity {
     name: "deleted_at",
   })
   deletedAt!: Date;
-  constructor(name: string, code: string){
+  constructor(name: string, code: string) {
     this.name = name;
     this.code = code;
   }

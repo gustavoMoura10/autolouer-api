@@ -20,7 +20,7 @@ export default class VehicleCategoryRepository
   ): Promise<VehicleCategoryEntity | null> | VehicleCategoryEntity {
     throw new Error("Method not implemented.");
   }
-  findAllVehicleCategorys():
+  findAllVehicleCategories():
     | Promise<VehicleCategoryEntity[]>
     | VehicleCategoryEntity[] {
     throw new Error("Method not implemented.");
