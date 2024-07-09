@@ -23,7 +23,16 @@ export default class BrandRepository implements InterfaceBrandRepository {
     }
   }
   findBrandById(id: number): Promise<BrandEntity | null> | BrandEntity {
-    throw new Error("Method not implemented.");
+    try {
+      return this.repository.findOne({
+        where: {
+          id,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
   }
   findAllBrands(): Promise<BrandEntity[]> | BrandEntity[] {
     try {

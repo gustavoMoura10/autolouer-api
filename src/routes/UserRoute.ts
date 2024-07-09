@@ -1,16 +1,25 @@
-import { Router } from "express";
+import {
+  NextFunction,
+  Request,
+  RequestHandler,
+  Response,
+  Router,
+} from "express";
 import UserController from "../controllers/UserController";
 import UserRepository from "../repositories/UserRepository";
 import AppDataSource from "../database/DataSource";
+import UserSchema from "../validator/UserSchema";
+import validateSchemaMiddleware from "../middlewares/validateSchemaMiddleware";
 
 const router: Router = Router();
 const userRepository = new UserRepository(
   AppDataSource.getRepository("UserEntity")
 );
 const userController = new UserController(userRepository);
-
-router.post("/signup", (req, res, next) =>
-  userController.createUser(req, res, next)
+router.post(
+  "/signup",
+  validateSchemaMiddleware(UserSchema.createSchema),
+  (req, res, next) => userController.createUser(req, res, next)
 );
 router.get("/", (req, res, next) =>
   userController.findAllUsers(req, res, next)

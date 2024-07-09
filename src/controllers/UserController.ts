@@ -10,8 +10,6 @@ export default class UserController {
   constructor(private userRepository: UserRepository) {}
   async createUser(req: Request, res: Response, next: NextFunction) {
     try {
-      const userSchema = new UserSchema();
-      await userSchema.create(req.body);
       const { firstName, lastName, email, password, document, birthdate } = <
         User
       >req.body;

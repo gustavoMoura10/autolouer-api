@@ -9,8 +9,6 @@ export default class CountryController {
   constructor(private countryRepository: CountryRepository) {}
   async createCountry(req: Request, res: Response, next: NextFunction) {
     try {
-      const countrySchema = new CountrySchema();
-      await countrySchema.create(req.body);
       const { id } = req.params;
       const { name, code } = <Country>req.body;
 

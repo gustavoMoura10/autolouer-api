@@ -1,8 +1,10 @@
-import { Router } from "express";
+import { RequestHandler, Router } from "express";
 import AppDataSource from "../database/DataSource";
 import BrandController from "../controllers/BrandController";
 import BrandRepository from "../repositories/BrandRepository";
 import CountryRepository from "../repositories/CountryRepository";
+import validateSchemaMiddleware from "../middlewares/validateSchemaMiddleware";
+import BrandSchema from "../validator/BrandShema";
 
 const router: Router = Router();
 const brandRepository = new BrandRepository(
@@ -13,8 +15,10 @@ const countryRepository = new CountryRepository(
 );
 const brandController = new BrandController(brandRepository, countryRepository);
 
-router.post("/", (req, res, next) =>
-  brandController.createBrand(req, res, next)
+router.post(
+  "/",
+  validateSchemaMiddleware(BrandSchema.createSchema),
+  (req, res, next) => brandController.createBrand(req, res, next)
 );
 router.get("/", (req, res, next) =>
   brandController.findAllBrands(req, res, next)

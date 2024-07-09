@@ -1,7 +1,9 @@
-import { Router } from "express";
+import { RequestHandler, Router } from "express";
 import AppDataSource from "../database/DataSource";
 import CountryController from "../controllers/CountryController";
 import CountryRepository from "../repositories/CountryRepository";
+import validateSchemaMiddleware from "../middlewares/validateSchemaMiddleware";
+import CountrySchema from "../validator/CountrySchema";
 
 const router: Router = Router();
 const countryRepository = new CountryRepository(
@@ -9,13 +11,14 @@ const countryRepository = new CountryRepository(
 );
 const countryController = new CountryController(countryRepository);
 
-
 router.get("/", (req, res, next) =>
   countryController.findAllCountries(req, res, next)
 );
 
-router.post("/", (req, res, next) =>
-  countryController.createCountry(req, res, next)
+router.post(
+  "/",
+  validateSchemaMiddleware(CountrySchema.createSchema),
+  (req, res, next) => countryController.createCountry(req, res, next)
 );
 router.get("/:id", (req, res, next) =>
   countryController.findCountryById(req, res, next)
