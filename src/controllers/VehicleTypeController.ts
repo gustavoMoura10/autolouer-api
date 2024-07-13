@@ -30,7 +30,6 @@ export default class VehicleTypeController {
   async findVehicleTypeById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-
       const vehicleType = await this.vehicleTypeRepository.findVehicleTypeById(
         Number(id)
       );

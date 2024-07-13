@@ -3,6 +3,8 @@ import AppDataSource from "../database/DataSource";
 import VehicleTypeController from "../controllers/VehicleTypeController";
 import VehicleTypeRepository from "../repositories/VehicleTypeRepository";
 import CountryRepository from "../repositories/CountryRepository";
+import VehicleTypeSchema from "../validator/VehicleTypeSchema";
+import validateSchemaMiddleware from "../middlewares/validateSchemaMiddleware";
 
 const router: Router = Router();
 const vehicleTypeRepository = new VehicleTypeRepository(
@@ -16,8 +18,10 @@ const vehicleTypeController = new VehicleTypeController(
   countryRepository
 );
 
-router.post("/", (req, res, next) =>
-  vehicleTypeController.createVehicleType(req, res, next)
+router.post(
+  "/",
+  validateSchemaMiddleware(VehicleTypeSchema.createSchema),
+  (req, res, next) => vehicleTypeController.createVehicleType(req, res, next)
 );
 router.get("/", (req, res, next) =>
   vehicleTypeController.findAllVehicleTypes(req, res, next)

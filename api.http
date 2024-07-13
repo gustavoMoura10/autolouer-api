@@ -40,8 +40,33 @@ Content-Type: application/json
     "name":"Automóvel",
     "country":1
 }
+
 ###
 GET http://localhost:3000/vehicleType
+
+###
+GET http://localhost:3000/vehicleType/1
+###
+###
+//VEHICLE MODEL
+###
+POST http://localhost:3000/vehicleModel
+Content-Type: application/json
+
+{
+   "name":"Fiat 500",
+   "brand":1,
+   "vehicleType":[
+      1
+   ],
+   "bio":"The Fiat 500 (Italian: Cinquecento, pronounced [ˌtʃiŋkweˈtʃɛnto]) is an economy / city car that was manufactured and marketed by Fiat Automobiles from 1957 until 1975. It was sold as a two-door semi-convertible or saloon car and as a three-door panel van or estate car. "
+}
+
+###
+GET http://localhost:3000/vehicleModel
+
+###
+GET http://localhost:3000/vehicleModel/1
 ###
 //USERS
 ###

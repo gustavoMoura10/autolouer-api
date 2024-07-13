@@ -25,25 +25,23 @@ export default class VehicleTypeRepository
       throw error;
     }
   }
-  findVehicleTypeById(
-    id: number
-  ): Promise<VehicleTypeEntity | null> | VehicleTypeEntity {
+  async findVehicleTypeById(id: number): Promise<VehicleTypeEntity | null> {
     try {
-      return this.repository.findOne({
+      const result = await this.repository.findOne({
         where: {
           id,
         },
       });
+      return result;
     } catch (error) {
       console.log(error);
       throw error;
     }
   }
-  findAllVehicleTypes(): Promise<VehicleTypeEntity[]> | VehicleTypeEntity[] {
+  async findAllVehicleTypes(): Promise<VehicleTypeEntity[]> {
     try {
-      return this.repository.find({
-        relations: ["country"],
-      });
+      const result = await this.repository.find();
+      return result;
     } catch (error) {
       console.log(error);
       throw error;
