@@ -1,2 +1,4 @@
-type VehicleExchange = {};
+type VehicleExchange = {
+  name: string;
+};
 export default VehicleExchange;

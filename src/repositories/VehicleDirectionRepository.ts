@@ -3,19 +3,32 @@ import VehicleDirectionEntity from "../database/entities/VehicleDirectionEntity"
 import VehicleDirection from "../types/VehicleDirection";
 import InterfaceVehicleDirectionRepository from "./interfaces/InterfaceVehicleDirectionRepository";
 
-export default class VehicleDirectionRepository implements InterfaceVehicleDirectionRepository {
-
+export default class VehicleDirectionRepository
+  implements InterfaceVehicleDirectionRepository
+{
   private repository: Repository<VehicleDirectionEntity>;
   constructor(repository: Repository<VehicleDirectionEntity>) {
     this.repository = repository;
   }
-  createVehicleDirection(vehicleDirection: VehicleDirection): Promise<VehicleDirectionEntity | null> | VehicleDirectionEntity {
+  createVehicleDirection(
+    vehicleDirection: VehicleDirection
+  ): Promise<VehicleDirectionEntity | null> | VehicleDirectionEntity {
+    try {
+      const createdVehicleDirection = new VehicleDirectionEntity(vehicleDirection.name);
+      return this.repository.save(createdVehicleDirection);
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+  findVehicleDirectionById(
+    id: number
+  ): Promise<VehicleDirectionEntity | null> | VehicleDirectionEntity {
     throw new Error("Method not implemented.");
   }
-  findVehicleDirectionById(id: number): Promise<VehicleDirectionEntity | null> | VehicleDirectionEntity {
-    throw new Error("Method not implemented.");
-  }
-  findAllVehicleDirections(): Promise<VehicleDirectionEntity[]> | VehicleDirectionEntity[] {
+  findAllVehicleDirections():
+    | Promise<VehicleDirectionEntity[]>
+    | VehicleDirectionEntity[] {
     throw new Error("Method not implemented.");
   }
   updateVehicleDirectionById(
@@ -24,7 +37,9 @@ export default class VehicleDirectionRepository implements InterfaceVehicleDirec
   ): Promise<VehicleDirectionEntity | null> | VehicleDirectionEntity {
     throw new Error("Method not implemented.");
   }
-  deleteVehicleDirectionById(id: number): Promise<VehicleDirectionEntity | null> | VehicleDirectionEntity {
+  deleteVehicleDirectionById(
+    id: number
+  ): Promise<VehicleDirectionEntity | null> | VehicleDirectionEntity {
     throw new Error("Method not implemented.");
   }
 }

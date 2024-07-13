@@ -1,2 +1,4 @@
-type VehicleDirection = {};
+type VehicleDirection = {
+  name: string;
+};
 export default VehicleDirection;

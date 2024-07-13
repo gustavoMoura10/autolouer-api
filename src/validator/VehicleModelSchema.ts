@@ -5,7 +5,7 @@ import { regexPassword } from "../utils/regex";
 export default class VehicleModelSchema {
   static createSchema = Joi.object({
     name: Joi.string().min(2).max(100).required(),
-    vehicleType: Joi.array()
+    vehicleTypes: Joi.array()
       .items(Joi.alternatives().try(Joi.object(), Joi.number()))
       .required(),
     brand: Joi.alternatives().try(Joi.object(), Joi.number()).required(),

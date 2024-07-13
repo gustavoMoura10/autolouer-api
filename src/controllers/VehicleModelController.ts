@@ -25,7 +25,8 @@ export default class VehicleModelController {
           );
         if (vehicleTypeEntity) vehicleTypeEntities.push(vehicleTypeEntity);
       }
-      const brandEntity = await this.brandRepository.findBrandById(Number(id));
+      const idBrand = typeof brand == "number" ? brand : brand.id;
+      const brandEntity = await this.brandRepository.findBrandById(Number(idBrand));
       const vehicleModel = await this.vehicleModelRepository.createVehicleModel(
         {
           brand: brandEntity,
