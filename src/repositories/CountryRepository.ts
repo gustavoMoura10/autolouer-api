@@ -30,6 +30,7 @@ export default class CountryRepository implements InterfaceCountryRepository {
         where: {
           id,
         },
+        relations: ["brands"],
       });
       if (result === null) {
         throw new EntityNotFoundError(`Country not found`);
@@ -42,7 +43,9 @@ export default class CountryRepository implements InterfaceCountryRepository {
   }
   findAllCountries(): Promise<CountryEntity[]> | CountryEntity[] {
     try {
-      return this.repository.find();
+      return this.repository.find({
+        relations: ["brands"],
+      });
     } catch (error) {
       console.log(error);
       throw error;

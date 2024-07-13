@@ -30,3 +30,4 @@ enum HttpStatusCode {
   CONFLICT = 409,
   INTERNAL_SERVER_ERROR = 500,
 }
+export default HttpStatusCode;

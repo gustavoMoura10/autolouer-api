@@ -28,9 +28,20 @@ Content-Type: application/json
     "bio":"Fiat Automobiles S.p.A. (UK: /ˈfiːət, -æt/ FEE-ət, -⁠at, US: /-ɑːt/ -⁠aht, Italian: [ˈfiːat]; originally FIAT, Italian: Fabbrica Italiana Automobili di Torino; lit. 'Italian Automobiles Factory of Turin') is an Italian automobile manufacturer, formerly part of Fiat Chrysler Automobiles, and since 2021 a subsidiary of Stellantis through its Italian division Stellantis Europe. Fiat Automobiles was formed in January 2007 when Fiat S.p.A. reorganized its automobile business,[2] and traces its history back to 1899, when the first Fiat automobile, the Fiat 4 HP, was produced"
 }
 ###
-GET http://localhost:3000/country
-###
+GET http://localhost:3000/brand/1
 
+###
+//VEHICLE TYPE
+###
+POST http://localhost:3000/vehicleType
+Content-Type: application/json
+
+{
+    "name":"Automóvel",
+    "country":1
+}
+###
+GET http://localhost:3000/vehicleType
 ###
 //USERS
 ###

@@ -4,6 +4,9 @@ import {
   DeleteDateColumn,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -11,6 +14,7 @@ import {
 } from "typeorm";
 import BrandEntity from "./BrandEntity";
 import VehicleEntity from "./VehicleEntity";
+import VehicleTypeEntity from "./VehicleTypeEntity";
 
 @Entity("vehicle_model")
 export default class VehicleModelEntity {
@@ -37,10 +41,7 @@ export default class VehicleModelEntity {
     referencedColumnName: "id",
   })
   brand: BrandEntity;
-  @CreateDateColumn({
-    name: "created_at",
-  })
-  createdAt!: Date;
+
 
   @OneToMany(
     () => VehicleEntity,
@@ -52,6 +53,22 @@ export default class VehicleModelEntity {
     }
   )
   vehicles?: VehicleEntity[];
+
+  @ManyToMany(
+    () => VehicleTypeEntity,
+    (vehicleType) => vehicleType.vehicleModels
+  )
+  @JoinTable({
+    name: "vehicle_model_vechicle_type",
+    joinColumns: [{ name: "vehicle_model_id", referencedColumnName: "id" }],
+    inverseJoinColumns: [{ name: "vehicle_type_id", referencedColumnName: "id" }],
+  })
+  vehicleTypes: VehicleTypeEntity[];
+
+  @CreateDateColumn({
+    name: "created_at",
+  })
+  createdAt!: Date;
   @UpdateDateColumn({
     name: "updated_at",
   })
@@ -60,9 +77,16 @@ export default class VehicleModelEntity {
     name: "deleted_at",
   })
   deletedAt!: Date;
-  constructor(name: string, brand: BrandEntity, bio?: string, photo?: string) {
+  constructor(
+    name: string,
+    brand: BrandEntity,
+    vehicleTypes: VehicleTypeEntity[],
+    bio?: string,
+    photo?: string
+  ) {
     this.name = name;
     this.brand = brand;
+    this.vehicleTypes = vehicleTypes;
     this.bio = bio;
     this.photo = photo;
   }

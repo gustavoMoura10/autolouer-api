@@ -24,7 +24,6 @@ export default class VehicleFuelEntity {
     (vehicle: VehicleEntity) => vehicle.vehicleFuel,
     {
       cascade: true,
-      eager: true,
     }
   )
   vehicles?: VehicleEntity[];

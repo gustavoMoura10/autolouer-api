@@ -35,12 +35,15 @@ export default class BrandEntity {
     referencedColumnName: "id",
   })
   country: Country;
+  
   @Column({
     length: 1000,
     nullable: true,
   })
   bio?: string;
-  @OneToMany(() => VehicleModelEntity, (vehicleModel) => vehicleModel.brand)
+  @OneToMany(() => VehicleModelEntity, (vehicleModel) => vehicleModel.brand, {
+    eager: true,
+  })
   vehicleModels?: VehicleModelEntity[];
   @Column({
     length: 500,

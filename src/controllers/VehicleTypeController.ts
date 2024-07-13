@@ -1,17 +1,26 @@
 import { NextFunction, Request, Response } from "express";
 import VehicleTypeRepository from "../repositories/VehicleTypeRepository";
 import VehicleType from "../types/VehicleType";
+import CountryRepository from "../repositories/CountryRepository";
+import Country from "../types/Country";
 
 export default class VehicleTypeController {
-  constructor(private vehicleTypeRepository: VehicleTypeRepository) {}
+  constructor(
+    private vehicleTypeRepository: VehicleTypeRepository,
+    private countryRepository: CountryRepository
+  ) {}
   async createVehicleType(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const {} = <VehicleType>req.body;
-
-      const vehicleType = await this.vehicleTypeRepository.createVehicleType(
-        {}
+      const { country, name } = <VehicleType>req.body;
+      const idCountry = typeof country === "number" ? country : country?.id;
+      const countryEntity = await this.countryRepository.findCountryById(
+        idCountry
       );
+      const vehicleType = await this.vehicleTypeRepository.createVehicleType({
+        country: countryEntity,
+        name,
+      } as VehicleType);
       return res.status(200).send(vehicleType);
     } catch (error) {
       console.log(error);
@@ -44,10 +53,13 @@ export default class VehicleTypeController {
   async updateVehicleTypeById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const {} = <VehicleType>req.body;
+      const { country, name } = <VehicleType>req.body;
 
       const vehicleType =
-        await this.vehicleTypeRepository.updateVehicleTypeById(Number(id), {});
+        await this.vehicleTypeRepository.updateVehicleTypeById(Number(id), {
+          country,
+          name,
+        });
       return res.status(200).send(vehicleType);
     } catch (error) {
       console.log(error);

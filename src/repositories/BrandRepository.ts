@@ -28,6 +28,7 @@ export default class BrandRepository implements InterfaceBrandRepository {
         where: {
           id,
         },
+        relations: ["country"],
       });
     } catch (error) {
       console.log(error);
@@ -36,7 +37,9 @@ export default class BrandRepository implements InterfaceBrandRepository {
   }
   findAllBrands(): Promise<BrandEntity[]> | BrandEntity[] {
     try {
-      return this.repository.find();
+      return this.repository.find({
+        relations: ["country"],
+      });
     } catch (error) {
       console.log(error);
       throw error;

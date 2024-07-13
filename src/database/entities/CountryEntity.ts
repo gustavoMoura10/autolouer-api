@@ -30,7 +30,6 @@ export default class CountryEntity {
 
   @OneToMany(() => BrandEntity, (brand: BrandEntity) => brand.country, {
     cascade: true,
-    eager: true,
   })
   brands?: BrandEntity[];
   
