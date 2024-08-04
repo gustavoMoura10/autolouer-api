@@ -32,7 +32,7 @@ export default class CountryEntity {
     cascade: true,
   })
   brands?: BrandEntity[];
-  
+
   @CreateDateColumn({
     name: "created_at",
   })
@@ -45,8 +45,9 @@ export default class CountryEntity {
     name: "deleted_at",
   })
   deletedAt!: Date;
-  constructor(name: string, code: string) {
+  constructor(name: string, code: string, brands?: BrandEntity[]) {
     this.name = name;
     this.code = code;
+    this.brands = brands;
   }
 }

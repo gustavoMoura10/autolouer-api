@@ -2,6 +2,8 @@ import { Router } from "express";
 import AppDataSource from "../database/DataSource";
 import VehicleFuelController from "../controllers/VehicleFuelController";
 import VehicleFuelRepository from "../repositories/VehicleFuelRepository";
+import validateSchemaMiddleware from "../middlewares/validateSchemaMiddleware";
+import VehicleFuelSchema from "../validator/VehicleFuelSchema";
 
 const router: Router = Router();
 const vehicleFuelRepository = new VehicleFuelRepository(
@@ -9,8 +11,10 @@ const vehicleFuelRepository = new VehicleFuelRepository(
 );
 const vehicleFuelController = new VehicleFuelController(vehicleFuelRepository);
 
-router.post("/", (req, res, next) =>
-  vehicleFuelController.createVehicleFuel(req, res, next)
+router.post(
+  "/",
+  validateSchemaMiddleware(VehicleFuelSchema.createSchema),
+  (req, res, next) => vehicleFuelController.createVehicleFuel(req, res, next)
 );
 router.get("/", (req, res, next) =>
   vehicleFuelController.findAllVehicleFuels(req, res, next)

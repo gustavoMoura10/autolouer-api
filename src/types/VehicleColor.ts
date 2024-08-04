@@ -1,2 +1,4 @@
-type VehicleColor = {};
+type VehicleColor = {
+  name: string;
+};
 export default VehicleColor;

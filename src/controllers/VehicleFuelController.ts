@@ -13,7 +13,7 @@ export default class VehicleFuelController {
     
       const vehicleFuel = await this.vehicleFuelRepository.createVehicleFuel({
        
-      });
+      } as VehicleFuel);
       return res.status(200).send(vehicleFuel);
     } catch (error) {
       console.log(error);
@@ -47,7 +47,7 @@ export default class VehicleFuelController {
 
       const vehicleFuel = await this.vehicleFuelRepository.updateVehicleFuelById(Number(id), {
        
-      });
+      } as VehicleFuel);
       return res.status(200).send(vehicleFuel);
     } catch (error) {
       console.log(error);

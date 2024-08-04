@@ -26,7 +26,9 @@ export default class VehicleModelController {
         if (vehicleTypeEntity) vehicleTypeEntities.push(vehicleTypeEntity);
       }
       const idBrand = typeof brand == "number" ? brand : brand.id;
-      const brandEntity = await this.brandRepository.findBrandById(Number(idBrand));
+      const brandEntity = await this.brandRepository.findBrandById(
+        Number(idBrand)
+      );
       const vehicleModel = await this.vehicleModelRepository.createVehicleModel(
         {
           brand: brandEntity,
@@ -71,13 +73,16 @@ export default class VehicleModelController {
   ) {
     try {
       const { id } = req.params;
-      const {} = <VehicleModel>req.body;
+      const { brand, name, vehicleTypes, bio, photo } = <VehicleModel>req.body;
 
       const vehicleModel =
-        await this.vehicleModelRepository.updateVehicleModelById(
-          Number(id),
-          {} as VehicleModel
-        );
+        await this.vehicleModelRepository.updateVehicleModelById(Number(id), {
+          brand,
+          name,
+          vehicleTypes,
+          bio,
+          photo,
+        } as VehicleModel);
       return res.status(200).send(vehicleModel);
     } catch (error) {
       console.log(error);

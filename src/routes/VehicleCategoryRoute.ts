@@ -2,15 +2,22 @@ import { Router } from "express";
 import AppDataSource from "../database/DataSource";
 import VehicleCategoryController from "../controllers/VehicleCategoryController";
 import VehicleCategoryRepository from "../repositories/VehicleCategoryRepository";
+import validateSchemaMiddleware from "../middlewares/validateSchemaMiddleware";
+import VehicleCategorySchema from "../validator/VehicleCategorySchema";
 
 const router: Router = Router();
 const vehicleCategoryRepository = new VehicleCategoryRepository(
   AppDataSource.getRepository("VehicleCategoryEntity")
 );
-const vehicleCategoryController = new VehicleCategoryController(vehicleCategoryRepository);
+const vehicleCategoryController = new VehicleCategoryController(
+  vehicleCategoryRepository
+);
 
-router.post("/", (req, res, next) =>
-  vehicleCategoryController.createVehicleCategory(req, res, next)
+router.post(
+  "/",
+  validateSchemaMiddleware(VehicleCategorySchema.createSchema),
+  (req, res, next) =>
+    vehicleCategoryController.createVehicleCategory(req, res, next)
 );
 router.get("/", (req, res, next) =>
   vehicleCategoryController.findAllVehicleCategories(req, res, next)

@@ -109,9 +109,6 @@ export default class UserRepository implements InterfaceUserRepository {
         throw new EntityNotFoundError("User entity not found");
       }
       return result;
-      return this.repository.findOne({
-        where: { id },
-      });
     } catch (error) {
       console.log(error);
       throw error;

@@ -4,21 +4,21 @@ import Country from "../types/Country";
 import InterfaceCountryRepository from "./interfaces/InterfaceCountryRepository";
 import { toTitleCase } from "../utils/functions";
 import EntityNotFoundError from "../errors/EntityNotFoundError";
+import BrandEntity from "../database/entities/BrandEntity";
 
 export default class CountryRepository implements InterfaceCountryRepository {
   private repository: Repository<CountryEntity>;
   constructor(repository: Repository<CountryEntity>) {
     this.repository = repository;
   }
-  createCountry(
-    country: Country
-  ): Promise<CountryEntity | null> | CountryEntity {
+  createCountry(country: Country): Promise<CountryEntity | null> {
     try {
       const createdCountry = new CountryEntity(
         toTitleCase(country.name),
-        `${country.code}`.toUpperCase()
+        `${country.code}`.toUpperCase(),
+        <BrandEntity[]>country?.brands
       );
-      return this.repository.save(country);
+      return this.repository.save(createdCountry);
     } catch (error) {
       console.log(error);
       throw error;
@@ -51,13 +51,47 @@ export default class CountryRepository implements InterfaceCountryRepository {
       throw error;
     }
   }
-  updateCountryById(
+  async updateCountryById(
     id: number,
     country: Country
-  ): Promise<CountryEntity | null> | CountryEntity {
-    throw new Error("Method not implemented.");
+  ): Promise<CountryEntity | null> {
+    try {
+      let result = await this.repository.findOne({
+        where: {
+          id,
+        },
+      });
+      if (result !== null) {
+        result.code = country.code || result.code;
+        result.name = country.name || result.name;
+        result.brands = <BrandEntity[]>country?.brands || result.brands;
+        this.repository.save(result);
+      } else {
+        throw new EntityNotFoundError("Country entity not found");
+      }
+      return result;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
   }
-  deleteCountryById(id: number): Promise<CountryEntity | null> | CountryEntity {
-    throw new Error("Method not implemented.");
+  async deleteCountryById(id: number): Promise<CountryEntity | null> {
+    try {
+      const result = await this.repository.findOne({
+        where: {
+          id,
+        },
+      });
+      if (result !== null) {
+        result.deletedAt = new Date();
+        await this.repository.save(result);
+      } else {
+        throw new EntityNotFoundError("Country entity not found");
+      }
+      return result;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
   }
 }

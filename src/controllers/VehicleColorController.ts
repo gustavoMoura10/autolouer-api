@@ -3,17 +3,15 @@ import VehicleColorRepository from "../repositories/VehicleColorRepository";
 import VehicleColor from "../types/VehicleColor";
 
 export default class VehicleColorController {
-  constructor(
-    private vehicleColorRepository: VehicleColorRepository,
-  ) {}
+  constructor(private vehicleColorRepository: VehicleColorRepository) {}
   async createVehicleColor(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
       const {} = <VehicleColor>req.body;
-    
-      const vehicleColor = await this.vehicleColorRepository.createVehicleColor({
-       
-      });
+
+      const vehicleColor = await this.vehicleColorRepository.createVehicleColor(
+        {} as VehicleColor
+      );
       return res.status(200).send(vehicleColor);
     } catch (error) {
       console.log(error);
@@ -24,7 +22,8 @@ export default class VehicleColorController {
     try {
       const { id } = req.params;
 
-      const vehicleColor = await this.vehicleColorRepository.findVehicleColorById(Number(id));
+      const vehicleColor =
+        await this.vehicleColorRepository.findVehicleColorById(Number(id));
       return res.status(200).send(vehicleColor);
     } catch (error) {
       console.log(error);
@@ -33,32 +32,44 @@ export default class VehicleColorController {
   }
   async findAllVehicleColors(req: Request, res: Response, next: NextFunction) {
     try {
-      const vehicleColors = await this.vehicleColorRepository.findAllVehicleColors();
+      const vehicleColors =
+        await this.vehicleColorRepository.findAllVehicleColors();
       return res.status(200).send(vehicleColors);
     } catch (error) {
       console.log(error);
       next(error);
     }
   }
-  async updateVehicleColorById(req: Request, res: Response, next: NextFunction){
+  async updateVehicleColorById(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const { id } = req.params;
       const {} = <VehicleColor>req.body;
 
-      const vehicleColor = await this.vehicleColorRepository.updateVehicleColorById(Number(id), {
-       
-      });
+      const vehicleColor =
+        await this.vehicleColorRepository.updateVehicleColorById(
+          Number(id),
+          {} as VehicleColor
+        );
       return res.status(200).send(vehicleColor);
     } catch (error) {
       console.log(error);
       next(error);
     }
   }
-  async deleteVehicleColorById(req: Request, res: Response, next: NextFunction){
+  async deleteVehicleColorById(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const { id } = req.params;
 
-      const vehicleColor = await this.vehicleColorRepository.deleteVehicleColorById(Number(id));
+      const vehicleColor =
+        await this.vehicleColorRepository.deleteVehicleColorById(Number(id));
       return res.status(200).send(vehicleColor);
     } catch (error) {
       console.log(error);

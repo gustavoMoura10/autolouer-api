@@ -4,6 +4,7 @@ import VehicleModel from "../types/VehicleModel";
 import InterfaceVehicleModelRepository from "./interfaces/InterfaceVehicleModelRepository";
 import VehicleTypeEntity from "../database/entities/VehicleTypeEntity";
 import BrandEntity from "../database/entities/BrandEntity";
+import EntityNotFoundError from "../errors/EntityNotFoundError";
 
 export default class VehicleModelRepository
   implements InterfaceVehicleModelRepository
@@ -29,10 +30,21 @@ export default class VehicleModelRepository
       throw error;
     }
   }
-  findVehicleModelById(
-    id: number
-  ): Promise<VehicleModelEntity | null> | VehicleModelEntity {
-    throw new Error("Method not implemented.");
+  async findVehicleModelById(id: number): Promise<VehicleModelEntity | null> {
+    try {
+      const result = await this.repository.findOne({
+        where: {
+          id,
+        },
+      });
+      if (result == null) {
+        throw new EntityNotFoundError(`Vehicle Model not found`);
+      }
+      return result;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
   }
   findAllVehicleModels(): Promise<VehicleModelEntity[]> | VehicleModelEntity[] {
     throw new Error("Method not implemented.");

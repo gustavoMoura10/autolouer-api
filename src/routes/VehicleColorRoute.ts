@@ -2,15 +2,21 @@ import { Router } from "express";
 import AppDataSource from "../database/DataSource";
 import VehicleColorController from "../controllers/VehicleColorController";
 import VehicleColorRepository from "../repositories/VehicleColorRepository";
+import validateSchemaMiddleware from "../middlewares/validateSchemaMiddleware";
+import VehicleColorSchema from "../validator/VehicleColorSchema";
 
 const router: Router = Router();
 const vehicleColorRepository = new VehicleColorRepository(
   AppDataSource.getRepository("VehicleColorEntity")
 );
-const vehicleColorController = new VehicleColorController(vehicleColorRepository);
+const vehicleColorController = new VehicleColorController(
+  vehicleColorRepository
+);
 
-router.post("/", (req, res, next) =>
-  vehicleColorController.createVehicleColor(req, res, next)
+router.post(
+  "/",
+  validateSchemaMiddleware(VehicleColorSchema.createSchema),
+  (req, res, next) => vehicleColorController.createVehicleColor(req, res, next)
 );
 router.get("/", (req, res, next) =>
   vehicleColorController.findAllVehicleColors(req, res, next)
