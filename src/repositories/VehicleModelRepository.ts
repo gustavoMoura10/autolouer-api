@@ -47,13 +47,25 @@ export default class VehicleModelRepository
     }
   }
   findAllVehicleModels(): Promise<VehicleModelEntity[]> | VehicleModelEntity[] {
-    throw new Error("Method not implemented.");
+    try {
+      return this.repository.find({
+        relations: ["brand", "vehicleTypes"],
+      })
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
   }
-  updateVehicleModelById(
+  async updateVehicleModelById(
     id: number,
     vehicleModel: VehicleModel
-  ): Promise<VehicleModelEntity | null> | VehicleModelEntity {
-    throw new Error("Method not implemented.");
+  ): Promise<VehicleModelEntity | null> {
+    try {
+      
+    } catch (error) {
+      console.log(error);;
+      throw error;
+    }
   }
   deleteVehicleModelById(
     id: number

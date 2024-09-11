@@ -3,6 +3,8 @@ import VehicleTypeEntity from "../database/entities/VehicleTypeEntity";
 import VehicleType from "../types/VehicleType";
 import InterfaceVehicleTypeRepository from "./interfaces/InterfaceVehicleTypeRepository";
 import CountryEntity from "../database/entities/CountryEntity";
+import VehicleModelEntity from "../database/entities/VehicleModelEntity";
+import EntityNotFoundError from "../errors/EntityNotFoundError";
 
 export default class VehicleTypeRepository
   implements InterfaceVehicleTypeRepository
@@ -31,6 +33,7 @@ export default class VehicleTypeRepository
         where: {
           id,
         },
+        relations: ["country", "vehicleModels"],
       });
       return result;
     } catch (error) {
@@ -40,22 +43,57 @@ export default class VehicleTypeRepository
   }
   async findAllVehicleTypes(): Promise<VehicleTypeEntity[]> {
     try {
-      const result = await this.repository.find();
+      return this.repository.find({
+        relations: ["country", "vehicleModels"],
+      });
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+  async updateVehicleTypeById(
+    id: number,
+    vehicleType: VehicleType
+  ): Promise<VehicleTypeEntity | null> {
+    try {
+      let result = await this.repository.findOne({
+        where: {
+          id,
+        },
+      });
+      if (result !== null) {
+        result.name = vehicleType.name || result.name;
+        result.country = <CountryEntity>vehicleType.country || result.country;
+        result.vehicleModels =
+          <VehicleModelEntity[]>vehicleType.vehicleModels ||
+          result.vehicleModels;
+        this.repository.save(result);
+      } else {
+        throw new EntityNotFoundError("User entity not found");
+      }
       return result;
     } catch (error) {
       console.log(error);
       throw error;
     }
   }
-  updateVehicleTypeById(
-    id: number,
-    vehicleType: VehicleType
-  ): Promise<VehicleTypeEntity | null> | VehicleTypeEntity {
-    throw new Error("Method not implemented.");
-  }
-  deleteVehicleTypeById(
-    id: number
-  ): Promise<VehicleTypeEntity | null> | VehicleTypeEntity {
-    throw new Error("Method not implemented.");
+  async deleteVehicleTypeById(id: number): Promise<VehicleTypeEntity | null> {
+    try {
+      const result = await this.repository.findOne({
+        where: {
+          id,
+        },
+      });
+      if (result !== null) {
+        result.deletedAt = new Date();
+        await this.repository.save(result);
+      } else {
+        throw new EntityNotFoundError("Country entity not found");
+      }
+      return result;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
   }
 }
