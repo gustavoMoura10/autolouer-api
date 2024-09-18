@@ -2,6 +2,7 @@ import { Repository } from "typeorm";
 import VehicleDirectionEntity from "../database/entities/VehicleDirectionEntity";
 import VehicleDirection from "../types/VehicleDirection";
 import InterfaceVehicleDirectionRepository from "./interfaces/InterfaceVehicleDirectionRepository";
+import EntityNotFoundError from "../errors/EntityNotFoundError";
 
 export default class VehicleDirectionRepository
   implements InterfaceVehicleDirectionRepository
@@ -12,34 +13,86 @@ export default class VehicleDirectionRepository
   }
   createVehicleDirection(
     vehicleDirection: VehicleDirection
-  ): Promise<VehicleDirectionEntity | null> | VehicleDirectionEntity {
+  ): Promise<VehicleDirectionEntity | null> {
     try {
-      const createdVehicleDirection = new VehicleDirectionEntity(vehicleDirection.name);
+      const createdVehicleDirection = new VehicleDirectionEntity(
+        vehicleDirection.name
+      );
       return this.repository.save(createdVehicleDirection);
     } catch (error) {
       console.log(error);
       throw error;
     }
   }
-  findVehicleDirectionById(
+  async findVehicleDirectionById(
     id: number
-  ): Promise<VehicleDirectionEntity | null> | VehicleDirectionEntity {
-    throw new Error("Method not implemented.");
+  ): Promise<VehicleDirectionEntity | null> {
+    try {
+      const result = await this.repository.findOne({
+        where: {
+          id,
+        },
+      });
+      if (result === null) {
+        throw new EntityNotFoundError("Vehicle direction entity not found");
+      }
+      return result;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
   }
-  findAllVehicleDirections():
-    | Promise<VehicleDirectionEntity[]>
-    | VehicleDirectionEntity[] {
-    throw new Error("Method not implemented.");
+  findAllVehicleDirections(): Promise<VehicleDirectionEntity[]> {
+    try {
+      return this.repository.find({
+        relations: ["vehicles"],
+      });
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
   }
-  updateVehicleDirectionById(
+  async updateVehicleDirectionById(
     id: number,
     vehicleDirection: VehicleDirection
-  ): Promise<VehicleDirectionEntity | null> | VehicleDirectionEntity {
-    throw new Error("Method not implemented.");
+  ): Promise<VehicleDirectionEntity | null> {
+    try {
+      let result = await this.repository.findOne({
+        where: {
+          id,
+        },
+      });
+      if (result !== null) {
+        result.name = vehicleDirection.name || result.name;
+        this.repository.save(result);
+      } else {
+        throw new EntityNotFoundError("Vehicle direction entity not found");
+      }
+      return result;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
   }
-  deleteVehicleDirectionById(
+  async deleteVehicleDirectionById(
     id: number
-  ): Promise<VehicleDirectionEntity | null> | VehicleDirectionEntity {
-    throw new Error("Method not implemented.");
+  ): Promise<VehicleDirectionEntity | null> {
+    try {
+      const result = await this.repository.findOne({
+        where: {
+          id,
+        },
+      });
+      if (result !== null) {
+        result.deletedAt = new Date();
+        await this.repository.save(result);
+      } else {
+        throw new EntityNotFoundError("Vehicle direction entity not found");
+      }
+      return result;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
   }
 }

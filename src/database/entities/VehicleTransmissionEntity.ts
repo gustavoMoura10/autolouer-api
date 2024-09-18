@@ -9,8 +9,8 @@ import {
 } from "typeorm";
 import VehicleEntity from "./VehicleEntity";
 
-@Entity("vehicle_exchange")
-export default class VehicleExchangeEntity {
+@Entity("vehicle_transmission")
+export default class VehicleTransmissionEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -22,7 +22,7 @@ export default class VehicleExchangeEntity {
 
   @OneToMany(
     () => VehicleEntity,
-    (vehicle: VehicleEntity) => vehicle.vehicleExchange,
+    (vehicle: VehicleEntity) => vehicle.vehicleTransmission,
     {
       cascade: true,
       eager: true,

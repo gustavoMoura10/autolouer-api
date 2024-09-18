@@ -52,12 +52,13 @@ export default class VehicleTypeController {
   async updateVehicleTypeById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const { country, name } = <VehicleType>req.body;
+      const { country, name, vehicleModels } = <VehicleType>req.body;
 
       const vehicleType =
         await this.vehicleTypeRepository.updateVehicleTypeById(Number(id), {
           country,
           name,
+          vehicleModels,
         });
       return res.status(200).send(vehicleType);
     } catch (error) {

@@ -11,12 +11,12 @@ export default class VehicleDirectionController {
   ) {
     try {
       const { id } = req.params;
-      const {} = <VehicleDirection>req.body;
+      const { name } = <VehicleDirection>req.body;
 
       const vehicleDirection =
-        await this.vehicleDirectionRepository.createVehicleDirection(
-          {} as VehicleDirection
-        );
+        await this.vehicleDirectionRepository.createVehicleDirection({
+          name,
+        } as VehicleDirection);
       return res.status(200).send(vehicleDirection);
     } catch (error) {
       console.log(error);

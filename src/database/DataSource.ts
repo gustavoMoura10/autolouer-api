@@ -6,7 +6,7 @@ const AppDataSource = new DataSource({
   port: Number(process.env.PG_DATABASE_PORT),
   username: process.env.PG_DATABASE_USER,
   password: process.env.PG_DATABASE_PASSWORD,
-  database: process.env.PG_DATABASE_DATABASE,
+  database: process.env.PG_DATABASE_NAME,
   synchronize: true,
   logging: true,
   entities: [path.join(__dirname, "entities/**/*.{j,t}s")],

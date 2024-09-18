@@ -90,6 +90,8 @@ export default class UserEntity {
   )
   vehicleRents?: VehicleRentEntity[];
 
+  
+
   @CreateDateColumn({
     name: "created_at",
   })

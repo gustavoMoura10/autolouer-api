@@ -2,6 +2,7 @@ import { Repository } from "typeorm";
 import VehicleFuelEntity from "../database/entities/VehicleFuelEntity";
 import VehicleFuel from "../types/VehicleFuel";
 import InterfaceVehicleFuelRepository from "./interfaces/InterfaceVehicleFuelRepository";
+import EntityNotFoundError from "../errors/EntityNotFoundError";
 
 export default class VehicleFuelRepository
   implements InterfaceVehicleFuelRepository
@@ -12,7 +13,7 @@ export default class VehicleFuelRepository
   }
   createVehicleFuel(
     vehicleFuel: VehicleFuel
-  ): Promise<VehicleFuelEntity | null> | VehicleFuelEntity {
+  ): Promise<VehicleFuelEntity | null> {
     try {
       const createdVehicleFuel = new VehicleFuelEntity(vehicleFuel.name);
       return this.repository.save(createdVehicleFuel);
@@ -21,23 +22,73 @@ export default class VehicleFuelRepository
       throw error;
     }
   }
-  findVehicleFuelById(
-    id: number
-  ): Promise<VehicleFuelEntity | null> | VehicleFuelEntity {
-    throw new Error("Method not implemented.");
+  async findVehicleFuelById(id: number): Promise<VehicleFuelEntity | null> {
+    try {
+      const result = await this.repository.findOne({
+        where: {
+          id,
+        },
+      });
+      if (result === null) {
+        throw new EntityNotFoundError("Vehicle fuel entity not found");
+      }
+      return result;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
   }
-  findAllVehicleFuels(): Promise<VehicleFuelEntity[]> | VehicleFuelEntity[] {
-    throw new Error("Method not implemented.");
+  findAllVehicleFuels(): Promise<VehicleFuelEntity[]> {
+    try {
+      return this.repository.find({
+        relations: ["vehicles"],
+      });
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
   }
-  updateVehicleFuelById(
+  async updateVehicleFuelById(
     id: number,
     vehicleFuel: VehicleFuel
-  ): Promise<VehicleFuelEntity | null> | VehicleFuelEntity {
-    throw new Error("Method not implemented.");
+  ): Promise<VehicleFuelEntity | null>  {
+    try {
+        let result = await this.repository.findOne({
+          where: {
+            id,
+          },
+        });
+        if (result !== null) {
+          result.name = vehicleFuel.name || result.name;
+          this.repository.save(result);
+        } else {
+          throw new EntityNotFoundError("Vehicle fuel entity not found");
+        }
+        return result;
+      } catch (error) {
+        console.log(error);
+        throw error;
+      }
   }
-  deleteVehicleFuelById(
+  async deleteVehicleFuelById(
     id: number
-  ): Promise<VehicleFuelEntity | null> | VehicleFuelEntity {
-    throw new Error("Method not implemented.");
+  ): Promise<VehicleFuelEntity | null> {
+    try {
+        const result = await this.repository.findOne({
+          where: {
+            id,
+          },
+        });
+        if (result !== null) {
+          result.deletedAt = new Date();
+          await this.repository.save(result);
+        } else {
+          throw new EntityNotFoundError("Vehicle fuel entity not found");
+        }
+        return result;
+      } catch (error) {
+        console.log(error);
+        throw error;
+      }
   }
 }

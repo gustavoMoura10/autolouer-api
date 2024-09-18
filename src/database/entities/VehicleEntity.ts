@@ -17,7 +17,7 @@ import FuelEntity from "./VehicleFuelEntity";
 import VehicleFuelEntity from "./VehicleFuelEntity";
 import VehicleColorEntity from "./VehicleColorEntity";
 import VehicleDirectionEntity from "./VehicleDirectionEntity";
-import VehicleExchangeEntity from "./VehicleExchangeEntity";
+import VehicleTransmissionEntity from "./VehicleTransmissionEntity";
 import VehicleCategoryEntity from "./VehicleCategoryEntity";
 import VehicleRentEntity from "./VehicleRentEntity";
 
@@ -100,14 +100,14 @@ export default class VehicleEntity {
   vehicleDirection: VehicleDirectionEntity;
 
   @ManyToOne(
-    () => VehicleExchangeEntity,
-    (vehicleExchange) => vehicleExchange.vehicles
+    () => VehicleTransmissionEntity,
+    (vehicleTransmission) => vehicleTransmission.vehicles
   )
   @JoinColumn({
-    name: "vehicle_exchange_id",
+    name: "vehicle_transmission_id",
     referencedColumnName: "id",
   })
-  vehicleExchange: VehicleExchangeEntity;
+  vehicleTransmission: VehicleTransmissionEntity;
 
   @ManyToOne(
     () => VehicleModelEntity,
@@ -152,7 +152,7 @@ export default class VehicleEntity {
     vehiclePlate: string,
     vehicleCategory: VehicleCategoryEntity,
     vehicleDirection: VehicleDirectionEntity,
-    vehicleExchange: VehicleExchangeEntity,
+    vehicleTransmission: VehicleTransmissionEntity,
     vehicleModel: VehicleModelEntity,
     vehiclePhotos?: VehiclePhotoEntity[]
   ) {
@@ -165,7 +165,7 @@ export default class VehicleEntity {
     this.doors = doors;
     this.vehiclePlate = vehiclePlate;
     this.vehicleDirection = vehicleDirection;
-    this.vehicleExchange = vehicleExchange;
+    this.vehicleTransmission = vehicleTransmission;
     this.vehicleModel = vehicleModel;
     this.vehicleCategory = vehicleCategory;
     this.vehiclePhotos = vehiclePhotos;

@@ -19,6 +19,11 @@ export default class VehicleColorEntity {
     nullable: false,
   })
   name: string;
+  @Column({
+    length: 6,
+    nullable: false,
+  })
+  hex: string;
 
   @OneToMany(
     () => VehicleEntity,
@@ -42,7 +47,8 @@ export default class VehicleColorEntity {
     name: "deleted_at",
   })
   deletedAt!: Date;
-  constructor(name: string) {
+  constructor(name: string, hex: string) {
     this.name = name;
+    this.hex = hex;
   }
 }

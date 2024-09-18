@@ -7,10 +7,10 @@ export default class VehicleColorController {
   async createVehicleColor(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const {} = <VehicleColor>req.body;
+      const { name, hex } = <VehicleColor>req.body;
 
       const vehicleColor = await this.vehicleColorRepository.createVehicleColor(
-        {} as VehicleColor
+        { name, hex } as VehicleColor
       );
       return res.status(200).send(vehicleColor);
     } catch (error) {

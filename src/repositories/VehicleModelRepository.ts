@@ -36,6 +36,7 @@ export default class VehicleModelRepository
         where: {
           id,
         },
+        relations: ["brand", "vehicleTypes"],
       });
       if (result == null) {
         throw new EntityNotFoundError(`Vehicle Model not found`);
@@ -50,7 +51,7 @@ export default class VehicleModelRepository
     try {
       return this.repository.find({
         relations: ["brand", "vehicleTypes"],
-      })
+      });
     } catch (error) {
       console.log(error);
       throw error;
@@ -61,15 +62,20 @@ export default class VehicleModelRepository
     vehicleModel: VehicleModel
   ): Promise<VehicleModelEntity | null> {
     try {
-      
+      throw new Error("Method not implemented.");
     } catch (error) {
-      console.log(error);;
+      console.log(error);
       throw error;
     }
   }
   deleteVehicleModelById(
     id: number
   ): Promise<VehicleModelEntity | null> | VehicleModelEntity {
-    throw new Error("Method not implemented.");
+    try {
+      throw new Error("Method not implemented.");
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
   }
 }
