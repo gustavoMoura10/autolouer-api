@@ -37,8 +37,7 @@ POST http://localhost:3000/vehicleType
 Content-Type: application/json
 
 {
-    "name":"Automobile",
-    "country":2
+    "name":"Automobile"
 }
 
 ###
@@ -137,6 +136,53 @@ GET http://localhost:3000/vehicleModel
 
 ###
 GET http://localhost:3000/vehicleModel/1
+###
+
+###
+//VEHICLE MODEL
+###
+POST http://localhost:3000/vehicleCategory
+Content-Type: application/json
+
+{
+   "name":"Automobile"
+}
+
+###
+GET http://localhost:3000/vehicleCategory
+
+###
+GET http://localhost:3000/vehicleCategory/1
+###
+
+###
+//VEHICLE
+###
+POST http://localhost:3000/vehicle
+Content-Type: application/json
+
+{
+   "year":2010,
+   "description":"Teste",
+   "mileage":142000,
+   "motorPower":1.4,
+   "vehicleFuel":2,
+   "vehicleColor":1,
+   "doors":2,
+   "vehiclePlate":"STG1324",
+   "vehicleCategory":1,
+   "vehicleDirection":1,
+   "vehicleTransmission":2,
+   "vehicleModel":1
+}
+
+###
+GET http://localhost:3000/vehicle
+
+###
+GET http://localhost:3000/vehicle/1
+###
+
 ###
 //USERS
 ###

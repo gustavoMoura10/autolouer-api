@@ -6,7 +6,6 @@ import VehicleModel from "./VehicleModel";
 type VehicleType = {
   id?: number;
   name: string;
-  country: Country | CountryEntity | number;
   vehicleModels: VehicleModel[] | VehicleModelEntity[] | null;
 };
 export default VehicleType;

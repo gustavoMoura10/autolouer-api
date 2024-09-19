@@ -12,13 +12,8 @@ export default class VehicleTypeController {
   async createVehicleType(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const { country, name } = <VehicleType>req.body;
-      const idCountry = typeof country === "number" ? country : country?.id;
-      const countryEntity = await this.countryRepository.findCountryById(
-        idCountry
-      );
+      const { name } = <VehicleType>req.body;
       const vehicleType = await this.vehicleTypeRepository.createVehicleType({
-        country: countryEntity,
         name,
       } as VehicleType);
       return res.status(200).send(vehicleType);
@@ -52,11 +47,10 @@ export default class VehicleTypeController {
   async updateVehicleTypeById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const { country, name, vehicleModels } = <VehicleType>req.body;
+      const { name, vehicleModels } = <VehicleType>req.body;
 
       const vehicleType =
         await this.vehicleTypeRepository.updateVehicleTypeById(Number(id), {
-          country,
           name,
           vehicleModels,
         });

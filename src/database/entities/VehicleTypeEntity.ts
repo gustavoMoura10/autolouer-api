@@ -25,13 +25,6 @@ export default class VehicleTypeEntity {
   })
   name: string;
 
-  @OneToOne(() => CountryEntity, { eager: true, cascade: true, nullable: true })
-  @JoinColumn({
-    name: "country_id",
-    referencedColumnName: "id",
-  })
-  country: CountryEntity;
-
   @ManyToMany(
     () => VehicleModelEntity,
     (vehicleModel: VehicleModelEntity) => vehicleModel.vehicleTypes
@@ -56,8 +49,7 @@ export default class VehicleTypeEntity {
     name: "deleted_at",
   })
   deletedAt!: Date;
-  constructor(name: string, country: CountryEntity) {
+  constructor(name: string) {
     this.name = name;
-    this.country = country;
   }
 }

@@ -48,7 +48,6 @@ export default class VehicleModelEntity {
     (vehicle: VehicleEntity) => vehicle.vehicleModel,
     {
       cascade: true,
-      eager: true,
       onDelete: "CASCADE",
     }
   )

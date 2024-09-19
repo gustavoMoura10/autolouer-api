@@ -31,6 +31,7 @@ export default class VehicleColorRepository
         where: {
           id,
         },
+        relations: ["vehicles"],
       });
       if (result === null) {
         throw new EntityNotFoundError("Vehicle color entity not found");

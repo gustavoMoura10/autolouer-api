@@ -18,8 +18,7 @@ export default class VehicleTypeRepository
   ): Promise<VehicleTypeEntity | null> | VehicleTypeEntity {
     try {
       const createdVehicleType = new VehicleTypeEntity(
-        vehicleType.name,
-        <CountryEntity>vehicleType.country
+        vehicleType.name
       );
       return this.repository.save(createdVehicleType);
     } catch (error) {
@@ -33,7 +32,7 @@ export default class VehicleTypeRepository
         where: {
           id,
         },
-        relations: ["country", "vehicleModels"],
+        relations: ["vehicleModels"],
       });
       return result;
     } catch (error) {
@@ -44,7 +43,7 @@ export default class VehicleTypeRepository
   async findAllVehicleTypes(): Promise<VehicleTypeEntity[]> {
     try {
       return this.repository.find({
-        relations: ["country", "vehicleModels"],
+        relations: ["vehicleModels"],
       });
     } catch (error) {
       console.log(error);
@@ -63,7 +62,6 @@ export default class VehicleTypeRepository
       });
       if (result !== null) {
         result.name = vehicleType.name || result.name;
-        result.country = <CountryEntity>vehicleType.country || result.country;
         result.vehicleModels =
           <VehicleModelEntity[]>vehicleType.vehicleModels ||
           result.vehicleModels;

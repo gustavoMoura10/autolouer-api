@@ -4,14 +4,15 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Build Project",
-      "program": "${workspaceFolder}/server.ts",
+      "name": "Nodemon",
       "runtimeExecutable": "nodemon",
-      "preLaunchTask": "npm: build",
-      "sourceMaps": true,
-      "smartStep": true,
-      "internalConsoleOptions": "openOnSessionStart",
-      "outFiles": ["${workspaceFolder}/build/**/*.js"]
+      "runtimeArgs": [
+        "--exec",
+        "ts-node",
+        "server.ts"
+      ],
+      "outFiles": ["${workspaceFolder}/dist/**/*.js"],
+      "sourceMaps": true
     }
   ]
 }

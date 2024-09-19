@@ -1,4 +1,5 @@
 type VehicleColor = {
+  id: number;
   name: string;
   hex: string;
 };

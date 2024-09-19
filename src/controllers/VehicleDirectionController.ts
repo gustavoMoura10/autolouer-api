@@ -62,12 +62,12 @@ export default class VehicleDirectionController {
   ) {
     try {
       const { id } = req.params;
-      const {} = <VehicleDirection>req.body;
+      const { name } = <VehicleDirection>req.body;
 
       const vehicleDirection =
         await this.vehicleDirectionRepository.updateVehicleDirectionById(
           Number(id),
-          {} as VehicleDirection
+          { name } as VehicleDirection
         );
       return res.status(200).send(vehicleDirection);
     } catch (error) {

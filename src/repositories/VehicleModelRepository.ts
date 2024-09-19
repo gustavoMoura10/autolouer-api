@@ -36,7 +36,7 @@ export default class VehicleModelRepository
         where: {
           id,
         },
-        relations: ["brand", "vehicleTypes"],
+        relations: ["brand", "vehicleTypes", "vehicles"],
       });
       if (result == null) {
         throw new EntityNotFoundError(`Vehicle Model not found`);
@@ -62,17 +62,40 @@ export default class VehicleModelRepository
     vehicleModel: VehicleModel
   ): Promise<VehicleModelEntity | null> {
     try {
-      throw new Error("Method not implemented.");
+      const result = await this.repository.findOne({
+        where: {
+          id,
+        },
+      });
+      if (result === null) {
+        throw new EntityNotFoundError(`Vehicle Model not found`);
+      }
+      result.name = vehicleModel.name || result.name;
+      result.bio = vehicleModel.bio || result.bio;
+      result.photo = vehicleModel.photo || result.photo;
+      result.brand = <BrandEntity>vehicleModel.brand || result.brand;
+      result.vehicleTypes =
+        <VehicleTypeEntity[]>vehicleModel.vehicleTypes || result.vehicleTypes;
+      return this.repository.save(result);
     } catch (error) {
       console.log(error);
       throw error;
     }
   }
-  deleteVehicleModelById(
-    id: number
-  ): Promise<VehicleModelEntity | null> | VehicleModelEntity {
+  async deleteVehicleModelById(id: number): Promise<VehicleModelEntity | null> {
     try {
-      throw new Error("Method not implemented.");
+      const result = await this.repository.findOne({
+        where: {
+          id,
+        },
+      });
+      if (result !== null) {
+        result.deletedAt = new Date();
+        await this.repository.save(result);
+      } else {
+        throw new EntityNotFoundError("Vehicle model entity not found");
+      }
+      return result;
     } catch (error) {
       console.log(error);
       throw error;

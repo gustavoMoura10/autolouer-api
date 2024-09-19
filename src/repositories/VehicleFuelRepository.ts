@@ -28,6 +28,7 @@ export default class VehicleFuelRepository
         where: {
           id,
         },
+        relations: ["vehicles"],
       });
       if (result === null) {
         throw new EntityNotFoundError("Vehicle fuel entity not found");
@@ -51,44 +52,42 @@ export default class VehicleFuelRepository
   async updateVehicleFuelById(
     id: number,
     vehicleFuel: VehicleFuel
-  ): Promise<VehicleFuelEntity | null>  {
-    try {
-        let result = await this.repository.findOne({
-          where: {
-            id,
-          },
-        });
-        if (result !== null) {
-          result.name = vehicleFuel.name || result.name;
-          this.repository.save(result);
-        } else {
-          throw new EntityNotFoundError("Vehicle fuel entity not found");
-        }
-        return result;
-      } catch (error) {
-        console.log(error);
-        throw error;
-      }
-  }
-  async deleteVehicleFuelById(
-    id: number
   ): Promise<VehicleFuelEntity | null> {
     try {
-        const result = await this.repository.findOne({
-          where: {
-            id,
-          },
-        });
-        if (result !== null) {
-          result.deletedAt = new Date();
-          await this.repository.save(result);
-        } else {
-          throw new EntityNotFoundError("Vehicle fuel entity not found");
-        }
-        return result;
-      } catch (error) {
-        console.log(error);
-        throw error;
+      let result = await this.repository.findOne({
+        where: {
+          id,
+        },
+      });
+      if (result !== null) {
+        result.name = vehicleFuel.name || result.name;
+        this.repository.save(result);
+      } else {
+        throw new EntityNotFoundError("Vehicle fuel entity not found");
       }
+      return result;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+  async deleteVehicleFuelById(id: number): Promise<VehicleFuelEntity | null> {
+    try {
+      const result = await this.repository.findOne({
+        where: {
+          id,
+        },
+      });
+      if (result !== null) {
+        result.deletedAt = new Date();
+        await this.repository.save(result);
+      } else {
+        throw new EntityNotFoundError("Vehicle fuel entity not found");
+      }
+      return result;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
   }
 }

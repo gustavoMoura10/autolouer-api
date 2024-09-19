@@ -83,6 +83,7 @@ export default class VehicleTransmissionRepository
           id,
         },
       });
+      
       if (result !== null) {
         result.deletedAt = new Date();
         await this.repository.save(result);

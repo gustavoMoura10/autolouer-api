@@ -4,7 +4,7 @@ import Brand from "./Brand";
 import VehicleType from "./VehicleType";
 
 type VehicleModel = {
-  id?: number;
+  id: number;
   name: string;
   bio?: string;
   photo?: string;

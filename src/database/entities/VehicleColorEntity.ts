@@ -29,8 +29,7 @@ export default class VehicleColorEntity {
     () => VehicleEntity,
     (vehicle: VehicleEntity) => vehicle.vehicleColor,
     {
-      cascade: true,
-      eager: true,
+      cascade: true
     }
   )
   vehicles?: VehicleEntity[];

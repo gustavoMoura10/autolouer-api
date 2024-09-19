@@ -64,12 +64,12 @@ export default class VehicleTransmissionController {
   ) {
     try {
       const { id } = req.params;
-      const {} = <VehicleTransmission>req.body;
+      const { name } = <VehicleTransmission>req.body;
 
       const vehicleTransmission =
         await this.vehicleTransmissionRepository.updateVehicleTransmissionById(
           Number(id),
-          {} as VehicleTransmission
+          { name } as VehicleTransmission
         );
       return res.status(200).send(vehicleTransmission);
     } catch (error) {

@@ -1,2 +1,32 @@
-type Vehicle = {};
+import VehicleCategoryEntity from "../database/entities/VehicleCategoryEntity";
+import VehicleColorEntity from "../database/entities/VehicleColorEntity";
+import VehicleDirectionEntity from "../database/entities/VehicleDirectionEntity";
+import VehicleFuelEntity from "../database/entities/VehicleFuelEntity";
+import VehicleModelEntity from "../database/entities/VehicleModelEntity";
+import VehiclePhotoEntity from "../database/entities/VehiclePhotoEntity";
+import VehicleTransmissionEntity from "../database/entities/VehicleTransmissionEntity";
+import VehicleCategory from "./VehicleCategory";
+import VehicleColor from "./VehicleColor";
+import VehicleDirection from "./VehicleDirection";
+import VehicleFuel from "./VehicleFuel";
+import VehicleModel from "./VehicleModel";
+import VehiclePhoto from "./VehiclePhoto";
+import VehicleTransmission from "./VehicleTransmission";
+
+type Vehicle = {
+  id: number | null;
+  year: number;
+  description: string;
+  mileage: number;
+  motorPower: number;
+  vehicleFuel: VehicleFuelEntity | VehicleFuel;
+  vehicleColor: VehicleColorEntity | VehicleColor;
+  doors: number;
+  vehiclePlate: string;
+  vehicleCategory: VehicleCategoryEntity | VehicleCategory;
+  vehicleDirection: VehicleDirectionEntity | VehicleDirection;
+  vehicleTransmission: VehicleTransmissionEntity | VehicleTransmission;
+  vehicleModel: VehicleModelEntity | VehicleModel;
+  vehiclePhotos?: VehiclePhotoEntity[] | [];
+};
 export default Vehicle;
